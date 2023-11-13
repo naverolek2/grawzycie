@@ -40,6 +40,46 @@ function draw(board) {
 function life(board) {
     //function accepts as argument the previous "tick" of the board
     //here you should implement the changes....
+    let ilosc_somsiadow = 0
+    let isAlive = true 
+    let array = [];
+        let c = 0
+        for (var key in board) {
+            if (board.hasOwnProperty(key)) ++c;
+          }
+    let arrayLengthI = board.length;
+    alert(arrayLengthI);
+        
+    
+    for(let i = 0; i < array[i].length; i++) {
+        if(array[i] == true) {
+            if(array[i-1] == true) {
+                ilosc_somsiadow =+ 1
+            }
+            if(array[i+1] == true) {
+                ilosc_somsiadow =+ 1
+
+            }
+
+        }
+        for(let j = 0; j < array[j].length; j++) {
+
+        }
+    }
+    console.log(array)
+    if(ilosc_somsiadow < 2 && board[randomY][randomX] == true) {
+        // komórka umiera
+    }
+    if(ilosc_somsiadow == 2 && board[randomY][randomX] == true || ilosc_somsiadow == 3 && board[randomY][randomX] == true) {
+        //komórka przeżywa, nic się nie zmienia
+    }
+    if(ilosc_somsiadow > 3 && board[randomY][randomX] == true) {
+        // komórka umiera
+    }
+    if(ilosc_somsiadow == 3 && board[randomY][randomX] == false) {
+        // komórka się odradza
+    }
+
 
     //TUTAJ WSZYSTKO TRZEBA ROBIĆ
 
