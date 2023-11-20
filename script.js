@@ -9,7 +9,7 @@ function init() {
     }
     //console.log(board);
     //seed random life forms
-    let lifeFormCounter = 200;
+    let lifeFormCounter = 300;
     while (lifeFormCounter > 0) {
         let randomY = Math.floor(Math.random()*50);
         let randomX = Math.floor(Math.random()*50);
