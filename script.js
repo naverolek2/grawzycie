@@ -9,7 +9,8 @@ function init() {
     }
     //console.log(board);
     //seed random life forms
-    let lifeFormCounter = 50;
+    // zmieniłem ilość życia, gdyż było go za mało, żeby przeżyło dłuższą chwilę
+    let lifeFormCounter = 300;
     while (lifeFormCounter > 0) {
         let randomY = Math.floor(Math.random()*50);
         let randomX = Math.floor(Math.random()*50);
@@ -41,50 +42,72 @@ function life(board) {
     //function accepts as argument the previous "tick" of the board
     //here you should implement the changes....
     let ilosc_somsiadow = 0
-    let isAlive = true 
     let array = [];
-        let c = 0
-        for (var key in board) {
-            if (board.hasOwnProperty(key)) ++c;
-          }
-    let arrayLengthI = board.length;
-    alert(arrayLengthI);
-        
+
+
+
+    for (var i = 0; i < board.length; i++) {
+        array[i] = board[i].slice();
+    }
+
+    let n = board.length;
+    let m = board[0].length;
     
-    for(let i = 0; i < array[i].length; i++) {
-        if(array[i] == true) {
-            if(array[i-1] == true) {
-                ilosc_somsiadow =+ 1
+    for (let i = 0; i < n; i++) {
+        for (let j = 0; j < m; j++) {
+            ilosc_somsiadow = 0;
+    
+            if (i > 0 && board[i - 1][j]){
+                ilosc_somsiadow++; 
+            } 
+            if (i < n - 1 && board[i + 1][j]) {
+                ilosc_somsiadow++;
+            } 
+            if (j > 0 && board[i][j - 1]) {
+                ilosc_somsiadow++; 
             }
-            if(array[i+1] == true) {
-                ilosc_somsiadow =+ 1
-
+            if (j < m - 1 && board[i][j + 1]) {
+                ilosc_somsiadow++; 
             }
-
+    
+            if (i > 0 && j > 0 && board[i - 1][j - 1]) {
+                ilosc_somsiadow++; 
+            }
+            if (i > 0 && j < m - 1 && board[i - 1][j + 1]) {
+                ilosc_somsiadow++; 
+            }
+            if (i < n - 1 && j > 0 && board[i + 1][j - 1]) {
+                ilosc_somsiadow++; 
+            }
+            if (i < n - 1 && j < m - 1 && board[i + 1][j + 1]) {
+                ilosc_somsiadow++; 
+            }
+    
+    
+            if (ilosc_somsiadow > 2 && board[i][j]) {
+                array[i][j] = false;
+            } else if ((ilosc_somsiadow === 2 || ilosc_somsiadow === 3) && board[i][j]) {
+                array[i][j] = true;
+            } else if (ilosc_somsiadow < 3 && board[i][j]) {
+                array[i][j] = false;
+            } else if (ilosc_somsiadow === 3 && !board[i][j]) {
+                array[i][j] = true;
+            }
         }
-        for(let j = 0; j < array[j].length; j++) {
-
-        }
     }
-    console.log(array)
-    if(ilosc_somsiadow < 2 && board[randomY][randomX] == true) {
-        // komórka umiera
-    }
-    if(ilosc_somsiadow == 2 && board[randomY][randomX] == true || ilosc_somsiadow == 3 && board[randomY][randomX] == true) {
-        //komórka przeżywa, nic się nie zmienia
-    }
-    if(ilosc_somsiadow > 3 && board[randomY][randomX] == true) {
-        // komórka umiera
-    }
-    if(ilosc_somsiadow == 3 && board[randomY][randomX] == false) {
-        // komórka się odradza
-    }
-
+    
+  
+    
 
     //TUTAJ WSZYSTKO TRZEBA ROBIĆ
-
+    console.log(array);
+    console.log(board);
+    for (let i = 0; i < array.length; i++) {
+        board[i] = array[i].slice();
+    }
+    
     //function has to return mutated board (after the tick)
-    return board;
+    return array;
 }
 
 function mainLoop(board) {
