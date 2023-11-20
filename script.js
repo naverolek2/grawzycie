@@ -9,8 +9,7 @@ function init() {
     }
     //console.log(board);
     //seed random life forms
-    // zmieniłem ilość życia, gdyż było go za mało, żeby przeżyło dłuższą chwilę
-    let lifeFormCounter = 300;
+    let lifeFormCounter = 200;
     while (lifeFormCounter > 0) {
         let randomY = Math.floor(Math.random()*50);
         let randomX = Math.floor(Math.random()*50);
@@ -38,6 +37,7 @@ function draw(board) {
         }
     }
 }
+
 function life(board) {
     //function accepts as argument the previous "tick" of the board
     //here you should implement the changes....
@@ -55,46 +55,30 @@ function life(board) {
     
     for (let i = 0; i < n; i++) {
         for (let j = 0; j < m; j++) {
-            ilosc_somsiadow = 0;
+            let ilosc_somsiadow = 0;
     
-            if (i > 0 && board[i - 1][j]){
-                ilosc_somsiadow++; 
-            } 
-            if (i < n - 1 && board[i + 1][j]) {
-                ilosc_somsiadow++;
-            } 
-            if (j > 0 && board[i][j - 1]) {
-                ilosc_somsiadow++; 
-            }
-            if (j < m - 1 && board[i][j + 1]) {
-                ilosc_somsiadow++; 
+            // Check neighbors
+            for (let x = Math.max(0, i - 1); x <= Math.min(n - 1, i + 1); x++) {
+                for (let y = Math.max(0, j - 1); y <= Math.min(m - 1, j + 1); y++) {
+                    if (!(x === i && y === j)) {
+                        ilosc_somsiadow += board[x][y] ? 1 : 0;
+                    }
+                }
             }
     
-            if (i > 0 && j > 0 && board[i - 1][j - 1]) {
-                ilosc_somsiadow++; 
-            }
-            if (i > 0 && j < m - 1 && board[i - 1][j + 1]) {
-                ilosc_somsiadow++; 
-            }
-            if (i < n - 1 && j > 0 && board[i + 1][j - 1]) {
-                ilosc_somsiadow++; 
-            }
-            if (i < n - 1 && j < m - 1 && board[i + 1][j + 1]) {
-                ilosc_somsiadow++; 
-            }
-    
-    
-            if (ilosc_somsiadow > 2 && board[i][j]) {
-                array[i][j] = false;
-            } else if ((ilosc_somsiadow === 2 || ilosc_somsiadow === 3) && board[i][j]) {
+            // Apply rules
+            if ((ilosc_somsiadow === 2 || ilosc_somsiadow === 3) && board[i][j]) {
                 array[i][j] = true;
-            } else if (ilosc_somsiadow < 3 && board[i][j]) {
-                array[i][j] = false;
             } else if (ilosc_somsiadow === 3 && !board[i][j]) {
                 array[i][j] = true;
+            } else {
+                array[i][j] = false;
             }
         }
     }
+    
+        
+    
     
   
     
@@ -102,10 +86,12 @@ function life(board) {
     //TUTAJ WSZYSTKO TRZEBA ROBIĆ
     console.log(array);
     console.log(board);
-    for (let i = 0; i < array.length; i++) {
-        board[i] = array[i].slice();
+    for (let i = 0; i < n; i++) {
+        for (let j = 0; j < m; j++) {
+            board[i][j] = array[i][j];
+        }
     }
-    
+        
     //function has to return mutated board (after the tick)
     return array;
 }
